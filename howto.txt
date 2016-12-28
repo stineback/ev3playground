@@ -1,7 +1,0 @@
- Login in to ev3:
- ssh robot@ev3dev.local
- password: maker
- 
- Copy program to ev3:
- scp hello robot@ev3dev.local:~/workspace/
-  password: maker
