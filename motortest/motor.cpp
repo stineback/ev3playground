@@ -5,7 +5,6 @@
 
 using namespace ev3dev;
 
-
 large_motor  left(OUTPUT_B);
 large_motor  right(OUTPUT_C);
 	

@@ -1,5 +1,7 @@
+TARGET = hello
+
 all:
-	arm-linux-gnueabi-gcc -o hello hellorobot.c
+	arm-linux-gnueabi-g++ -std=c++11 -o $(TARGET) *.cpp
 	
 clean:
-	rm hello
+	rm $(TARGET) *.o
