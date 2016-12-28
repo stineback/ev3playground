@@ -17,10 +17,10 @@ scp hello robot@ev3dev.local:~/workspace/
 password: maker
 
 ## SCRIPTS
-ev3build
+### ev3build
 -Startups a temporary docker container and runs the makefile for the current folder
 
-ev3cp source_file
+### ev3cp source_file
 -Copies the source_file from host to the EV3. The filename must be given as argument.
 
 ## WORKFLOW:
