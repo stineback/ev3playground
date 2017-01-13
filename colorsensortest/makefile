@@ -1,7 +1,8 @@
 TARGET = colorsensor
 
 all:
-	arm-linux-gnueabi-g++ -std=c++11 -o $(TARGET) *.cpp 
+	arm-linux-gnueabi-g++ -I.. -std=c++11 -o $(TARGET) ../*.cpp *.cpp
+	
 clean:
 	rm $(TARGET) *.o
 	

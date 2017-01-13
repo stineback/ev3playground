@@ -1,2 +1,5 @@
 #!/bin/sh
-docker run --rm -v $(pwd):/src -w /src ev3cc make
+DIR=$(pwd)
+PARENT_DIR=$(dirname $DIR)
+BASE_DIR=$(basename $DIR)
+docker run --rm -v $PARENT_DIR:/src -w /src ev3cc make -C $BASE_DIR
