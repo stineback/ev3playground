@@ -14,6 +14,8 @@ int main(){
 	large_motor _motor(OUTPUT_A);
 	gyro_sensor _gyro(INPUT_1);
 
+
+	//set motor to position zero
 	_motor.set_duty_cycle_sp(10);
 	_motor.set_position_sp(0).run_to_abs_pos();
 	while (!_motor.state().count("running"))
@@ -21,9 +23,11 @@ int main(){
 	while (_motor.state().count("running"))
     	std::this_thread::sleep_for(std::chrono::milliseconds(10));
 	
+	//reseting
 	_motor.reset();
 	_gyro.rate_and_angle();
 	
+	//turn motor 90 degrees relative to current position
 	_motor.set_duty_cycle_sp(10);
 	_motor.set_position_sp(90).run_to_rel_pos();
 	while (!_motor.state().count("running"))
