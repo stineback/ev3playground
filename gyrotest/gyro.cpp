@@ -32,7 +32,6 @@ int main(){
 	_motor.set_position_sp(90).run_to_rel_pos();
 	while (!_motor.state().count("running"))
     	std::this_thread::sleep_for(std::chrono::milliseconds(10));
-    	
 	while (_motor.state().count("running")){
     	std::this_thread::sleep_for(std::chrono::milliseconds(1));
     	
