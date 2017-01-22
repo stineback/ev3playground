@@ -8,7 +8,7 @@ using namespace ev3dev;
 large_motor  left(OUTPUT_B);
 large_motor  right(OUTPUT_C);
 	
-void drive(int speed, int t) {
+void drive(int speed, int time) {
 
 	right.set_duty_cycle_sp(speed);
 	left.set_duty_cycle_sp(speed);
@@ -18,7 +18,7 @@ void drive(int speed, int t) {
 
 	printf("Start\n");
 
-	usleep(t);
+	usleep(time);
 	
 	printf("Stop\n");
 }
