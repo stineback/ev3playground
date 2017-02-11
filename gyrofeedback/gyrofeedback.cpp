@@ -2,12 +2,14 @@
 #include <iostream>
 #include <algorithm>
 #include <string>
+#include <chrono>
 
 #include "utils.h"
 #include "ev3dev.h"
 
 using namespace ev3dev;
 using namespace std;
+using namespace std::chrono;
 
 float dutyCycle = 40;
 
@@ -45,7 +47,7 @@ void parseArguments(int argc, char* argv[]){
 			}
 		}
 	}
-	cout << "kp=" << kp << ", ki=" << ki << ", kd=" << kd << ", setpoint=" << setpoint << ", dutyCycle=" << dutyCycle<<endl;
+	cerr << "kp=" << kp << ", ki=" << ki << ", kd=" << kd << ", setpoint=" << setpoint << ", dutyCycle=" << dutyCycle<<endl;
 }
 
 float error(float angle){
@@ -66,9 +68,12 @@ void controlLoop(){
 	float e = error(angle);
 	float prevE = e;
 	
-	time_t t = time(NULL); //get current time
-	time_t prevT = t;
+//	time_t t = time(NULL); //get current time
+//	time_t prevT = t;
 	
+	milliseconds t = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+	milliseconds prevT = t;
+	milliseconds zeroT = t;
 	while(true){
 		angle = _gyro.angle();
 		
@@ -76,14 +81,17 @@ void controlLoop(){
 		e = error(angle);
 		
 		prevT = t;
-		t = time(NULL);
-		float deltaT = max(1.0,difftime(t, prevT));
+		t = duration_cast< milliseconds >(system_clock::now().time_since_epoch());
+		int diffT = duration_cast<milliseconds>(t-prevT).count();
+		float deltaT = max(1,diffT);
 		
 		float dE = derivedError(prevE, e, deltaT);
 		
 		float u = controlVariable(e, dE);
 
-		cout<< "angle=" << angle << ", deltaT=" << deltaT << ", controlVariable=" << u << endl;
+		cerr << "angle=" << angle << ", deltaT=" << deltaT << ", controlVariable=" << u << endl;
+		
+		cout << duration_cast<milliseconds>(t-zeroT).count() << "," << e << endl;
 
 		_motor.set_position_sp(u).run_to_rel_pos();
 	}
