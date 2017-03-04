@@ -18,6 +18,9 @@ float kp = 0.16;
 float ki = 1;
 float kd = 1.3;
 
+bool drawGraph = false;
+int graphRange = 100;
+
 large_motor _motor(OUTPUT_A);
 gyro_sensor _gyro(INPUT_1);
 
@@ -42,8 +45,11 @@ void parseArguments(int argc, char* argv[]){
 				kd = stof(postfix);
 			}else if(prefix == "-S"){
 				setpoint = stof(postfix);
-			}else if("-C"){
+			}else if(prefix == "-C"){
 				dutyCycle = stof(postfix);
+			}else if(prefix == "-G"){
+				drawGraph = true;
+				graphRange = stoi(postfix);
 			}
 		}
 	}
@@ -60,6 +66,33 @@ float derivedError(float prevError, float error, float time){
 
 float controlVariable(float error, float derivedError){
 	return kp*error + kd*derivedError;
+}
+
+void plotGraph(int value){
+	// draw value-axis
+	static bool first = true;
+	if(first){
+		first = false;
+		
+		string axis(graphRange*2 + 1, '-');
+		axis[axis.size()-1] = '>';
+		axis[graphRange + 1] = '+';
+		cout << axis << endl;
+	}
+
+
+	string line(graphRange*2 + 1, '.');
+	
+	// Plot axis
+	line[graphRange + 1] = '|';
+	
+	// Plot value
+	int plotValue = graphRange + value + 1;
+	plotValue = max(0, min(graphRange*2 + 1, plotValue));
+	
+	line[plotValue] = 'x'; 
+	
+	cout << line << endl;
 }
 
 void controlLoop(){
@@ -89,9 +122,13 @@ void controlLoop(){
 		
 		float u = controlVariable(e, dE);
 
-		cerr << "angle=" << angle << ", deltaT=" << deltaT << ", controlVariable=" << u << endl;
-		
-		cout << duration_cast<milliseconds>(t-zeroT).count() << "," << e << endl;
+		int duration = duration_cast<milliseconds>(t-zeroT).count();
+		if(drawGraph){
+			plotGraph(e);
+		}else{
+			cerr << "angle=" << angle << ", deltaT=" << deltaT << ", controlVariable=" << u << endl;
+			cout << duration << "," << e << endl;
+		}
 
 		_motor.set_position_sp(u).run_to_rel_pos();
 	}
