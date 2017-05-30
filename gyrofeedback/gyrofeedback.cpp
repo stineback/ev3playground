@@ -50,7 +50,7 @@ void parseArguments(int argc, char* argv[]){
 			}
 		}
 	}
-	cerr << "kp=" << kp << ", ki=" << ki << ", kd=" << kd << ", setpoint=" << setpoint << ", dutyCycle=" << dutyCycle<<endl << ", drawGraph=" << (drawGraph ? "YES" : "NO") << endl;
+	cerr << "kp=" << kp << ", ki=" << ki << ", kd=" << kd << ", setpoint=" << setpoint << ", dutyCycle=" << dutyCycle << ", drawGraph=" << (drawGraph ? "YES" : "NO") << endl;
 }
 
 void setup(){
