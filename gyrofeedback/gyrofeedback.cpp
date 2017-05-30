@@ -24,10 +24,7 @@ int graphRange = 100;
 large_motor _motor(OUTPUT_A);
 gyro_sensor _gyro(INPUT_1);
 
-void setup(){
-	_motor.set_duty_cycle_sp(dutyCycle);
-	_gyro.rate_and_angle();
-}
+
 
 void parseArguments(int argc, char* argv[]){
 	for(int i = 1; i<argc; ++i){
@@ -53,7 +50,12 @@ void parseArguments(int argc, char* argv[]){
 			}
 		}
 	}
-	cerr << "kp=" << kp << ", ki=" << ki << ", kd=" << kd << ", setpoint=" << setpoint << ", dutyCycle=" << dutyCycle<<endl;
+	cerr << "kp=" << kp << ", ki=" << ki << ", kd=" << kd << ", setpoint=" << setpoint << ", dutyCycle=" << dutyCycle<<endl << ", drawGraph=" << (drawGraph ? "YES" : "NO") << endl;
+}
+
+void setup(){
+	_motor.set_duty_cycle_sp(dutyCycle);
+	_gyro.rate_and_angle();
 }
 
 float error(float angle){
