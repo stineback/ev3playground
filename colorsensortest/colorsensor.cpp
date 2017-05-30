@@ -9,14 +9,14 @@
 using namespace ev3dev;
 using namespace std;
 
-vector<string> colorNames = {"No color","Black","Blue","Green","Yellow","Red","White","Brown"};
+vector<string> COLOR_NAMES = {"No color","Black","Blue","Green","Yellow","Red","White","Brown"};
 
-string colorName(int value){
-	if(value < 0 || value >= colorNames.size()){
+string getColorName(int value){
+	if(value < 0 || value >= COLOR_NAMES.size()){
 		return "Unknown color";
 	}
 	
-	return colorNames[value];
+	return COLOR_NAMES[value];
 }
 
 
@@ -30,15 +30,13 @@ int main() {
 	while (!button::enter.pressed()) {
 		int colorValue = cs.color();
 		if(colorValue != 0){
-			string color = colorName(colorValue);
+			string color = getColorName(colorValue);
 
 			sound::speak(color);
 	    	sleep(2);
 		}
-
 	}
 	
-
 	sound::speak("I am done!");
 
 	printf("Done\n");
